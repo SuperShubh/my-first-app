@@ -3,14 +3,25 @@ language: generic
 services:
   - docker
 
+before_install:
+  - pip install awscli # Install AWS CLI
+
+install:
+  - docker build -t my-first-app .
+
+script:
+  - echo "No tests specified"
+
 deploy:
   provider: elasticbeanstalk
   region: ap-south-1
   app: "my-first-app"
   env: "Myfirstapp-env-1"
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
   bucket_name: "my-first-app-bucket2"
   bucket_path: "docker"
   on:
     branch: main
+  access_key_id:
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
